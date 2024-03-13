@@ -1,0 +1,19 @@
+jobs:
+  analyze:
+    name: Analyzing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4.1.1
+        with: { fetch-depth: 0 }
+
+      - name: Perform SonarCloud analysis
+        uses: SonarSource/sonarcloud-github-action@v2.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  notify:
+    name: Notifying
+    needs: [ lint, analyze, test ]

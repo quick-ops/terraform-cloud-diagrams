@@ -1,0 +1,18 @@
+jobs:
+  analyze:
+    name: Analyzing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4.1.1
+        with: { fetch-depth: 0 }
+
+      - name: Perform Qodana analysis
+        uses: JetBrains/qodana-action@v2023.3.0
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+
+  notify:
+    name: Notifying
+    needs: [ lint, analyze, test ]
